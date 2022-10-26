@@ -37,7 +37,7 @@ thoughtSchema
     return this.reactions.length;
   });
 
-// Initializes  model
+// Initializes thought model
 const Thought = model('thought', thoughtSchema);
 
 module.exports = Thought;
