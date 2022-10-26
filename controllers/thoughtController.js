@@ -1,13 +1,13 @@
 const { Thought, User } = require('../models');
 
 module.exports = {
-  // Function to get all of the applications by invoking the find() method with no arguments.
+  // Function to get all of the thoughts by invoking the find() method with no arguments.
   getThoughts(req, res) {
     Thought.find()
       .then((thoughts) => res.json(thoughts))
       .catch((err) => res.status(500).json(err));
   },
-  // Gets a single application using the findOneAndUpdate method. We pass in the ID of the application and then respond with it, or an error if not found
+  // Gets a single thought using the findOneAndUpdate method. 
   getSingleThought(req, res) {
     Thought.findOne({ _id: req.params.thoughtId })
       .then((thought) =>
@@ -39,7 +39,7 @@ module.exports = {
         res.status(500).json(err);
       });
   },
-  // Updates and application using the findOneAndUpdate method. Uses the ID, and the $set operator in mongodb to inject the request body. Enforces validation.
+  // Updates a thought using the findOneAndUpdate method. Uses the ID, and the $set operator in mongodb to inject the request body. Enforces validation.
   updateThought(req, res) {
     Thought.findOneAndUpdate(
       { _id: req.params.thoughtId },
@@ -56,8 +56,7 @@ module.exports = {
         res.status(500).json(err);
       });
   },
-  // Deletes an application from the database. Looks for an app by ID.
-  // Then if the app exists, we look for any users associated with the app based on he app ID and update the applications array for the User.
+  // Deletes a thought from the database, by looking for a thought with an id
   deleteThought(req, res) {
     Thought.findOneAndRemove({ _id: req.params.thoughtId })
       .then((thought) =>
@@ -78,7 +77,7 @@ module.exports = {
       )
       .catch((err) => res.status(500).json(err));
   },
-  // Adds a tag to an application. This method is unique in that we add the entire body of the tag rather than the ID with the mongodb $addToSet operator.
+  // Adds a reaction to a thought
   addReaction(req, res) {
     Thought.findOneAndUpdate(
       { _id: req.params.thoughtId },
@@ -94,7 +93,7 @@ module.exports = {
         return res.status(500).json(err);
       });
   },
-  // Remove application tag. This method finds the application based on ID. It then updates the tags array associated with the app in question by removing it's tagId from the tags array.
+  // Removes thought reaction
   removeReaction(req, res) {
     Thought.findOneAndUpdate(
       { _id: req.params.thoughtId },
